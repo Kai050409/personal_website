@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>So It Goes... | Kaining Zhang</title>
+    <style>
+        /* 1. 全局重置 (z-index 底层) */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body, html {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            font-family: "Avenir Next", Avenir, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            /* 启用平滑滚动，增加翻页感 */
+            scroll-behavior: smooth; 
+        }
+
+        /* --- 2. 顶部导航栏 (固定置顶, z-index 最高: 1000) --- */
+        .top-bar {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100px;
+            background-color: rgba(255, 255, 255, 0.98); /* 稍微增加不透明度 */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 置顶签名 */
+        .brand { user-select: none; }
+        .brand a { text-decoration: none; display: flex; flex-direction: row; align-items: baseline; gap: 40px; }
+        .name-unit { font-size: 0.8rem; text-transform: uppercase; }
+        .name-en { font-family: "Didot", serif; color: #0066CC; letter-spacing: 3px; font-style: italic; }
+        .name-zh { font-family: "Songti SC", "STSong", serif; color: #C41E3A; letter-spacing: 12px; font-weight: 300; }
+        .name-mn { color: #FFB800; letter-spacing: 1px; opacity: 0.8; }
+
+        /* --- 3. 照片流容器 (z-index 底层) --- */
+        .gallery-container {
+            width: 100%;
+            /* 顶部留出足够空间避开导航 (100px导航 + 50px呼吸空间) */
+            margin-top: 150px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* 移除 gap，改用 photo-item 的 margin 控制 */
+        }
+
+        /* --- 4. 单张图片包装 (z-index 底层) --- */
+        .photo-item {
+            width: 100%;
+            height: 100vh; /* 每一项占满一屏 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* 垂直居中 */
+            align-items: center; /* 水平居中 */
+            padding: 0 60px; /* 侧边留白，防止图片贴边 */
+            margin-bottom: 20vh; /* 极其宽裕的底部留白，确保“翻页”仪式感 */
+            
+            /* 初始隐藏，配合后续滚动动画 */
+            opacity: 0;
+            transform: translateY(15px);
+            transition: all 1s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+
+        /* 当图片进入视口时显示的样式 */
+        .photo-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .photo-item img {
+            /* 核心改动：限制最大高度为视口的 80% */
+            /* 这保证了图片在任何屏幕上都能完整展示 */
+            max-width: 100%; 
+            max-height: 80vh; 
+            width: auto;
+            height: auto;
+            object-fit: contain; /* 保持比例 */
+            
+            /* 移除阴影，保持极简纯平面感 */
+        }
+
+        /* 图片注释/说明 */
+        .photo-meta {
+            margin-top: 20px; /* 紧贴图片下方 */
+            text-align: center;
+            width: 100%;
+        }
+
+        .caption {
+            font-family: "Didot", serif;
+            font-style: italic;
+            font-size: 0.85rem;
+            color: #999; /* 颜色再淡淡一点 */
+            letter-spacing: 1px;
+        }
+
+        /* --- 5. 项目说明 (作为最后一张图呈现) --- */
+        .project-statement {
+            height: 100vh; /* 说明文字也占满一屏 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 40px;
+        }
+        
+        .statement-text {
+            max-width: 600px;
+            text-align: justify;
+            line-height: 2.1;
+            font-weight: 300;
+            color: #444;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .brand a { flex-direction: column; align-items: center; gap: 15px; }
+            .gallery-container { margin-top: 140px; }
+            .photo-item { padding: 0 20px; margin-bottom: 10vh; }
+            .photo-item img { max-height: 70vh; } /* 移动端限制更严一点 */
+            .caption { font-size: 0.75rem; }
+            .statement-text { font-size: 0.9rem; line-height: 1.8; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="top-bar">
+        <div class="brand">
+            <a href="index.html">
+                <span class="name-unit name-en">Kaining Zhang</span>
+                <span class="name-unit name-zh">张凯宁</span>
+                <span class="name-unit name-mn">ᠵᠠᠩ ᡴᠠᡳ ᠨᡳᠩ</span>
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <div class="gallery-container">
+            
+            <div class="photo-item">
+                <img src="images/photo_01.jpg" alt="So It Goes #1">
+                <div class="photo-meta">
+                    <span class="caption">Soft Opening, Haicheng, Liaoning, China. Dec, 2025.</span>
+                </div>
+            </div>
+
+            <div class="photo-item">
+                <img src="images/photo_02.jpg" alt="So It Goes #2">
+                <div class="photo-meta">
+                    <span class="caption">Untitled, Haicheng, Liaoning, China. Jan, 2025.</span>
+                </div>
+            </div>
+
+            <article class="project-statement photo-item"> <div class="statement-text">
+                    <p><strong>So It Goes...</strong> is a long-term exploration of the post-industrial landscape of Northeast China, intertwined with my family's migratory history. Through large-format film, I seek to capture the stillness of a place that feels simultaneously stuck in time and rapidly dissolving.</p>
+                </div>
+            </article>
+
+        </div>
+    </main>
+
+    <script>
+        // 滚动淡入检测：threshold 设为 0.2，确保图片进入视口 20% 时触发
+        const observerOptions = { threshold: 0.2 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.photo-item').forEach(item => {
+            observer.observe(item);
+        });
+    </script>
+
+</body>
+</html>

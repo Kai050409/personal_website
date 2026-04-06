@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaining Zhang | Portfolio</title>
+    <style>
+        /* 1. 全局重置 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body, html {
+            height: 100%;
+            background-color: #ffffff;
+            color: #111;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            overflow: hidden;
+        }
+
+        /* --- 2. 背景照片层 --- */
+        .preview-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            opacity: 0; 
+            visibility: hidden;
+            transition: opacity 0.7s ease-in-out;
+            pointer-events: none;
+        }
+        
+        .preview-overlay img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- 3. 页面内容主容器 --- */
+        .landing-container {
+            position: relative;
+            z-index: 10;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center;
+        }
+
+        /* --- 4. 顶部栏 (名字中心化布局) --- */
+        .top-bar { 
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 50px 60px;
+            display: flex;
+            justify-content: center; /* 确保内容水平居中 */
+            align-items: center;
+            z-index: 100;
+        }
+
+        /* --- 居中的名字区域 --- */
+        .brand { 
+            user-select: none; 
+            transition: all 0.5s ease;
+            text-align: center;
+        }
+        
+        .brand a { 
+            text-decoration: none; 
+            display: flex; 
+            flex-direction: row; 
+            align-items: baseline; 
+            gap: 40px; 
+        }
+        
+        .name-unit { font-size: 0.85rem; font-weight: 400; text-transform: uppercase; transition: color 0.5s ease; }
+        .name-en { font-family: "Garamond", "Eb Garamond", serif; color: #0066CC; letter-spacing: 2px; font-style: italic; }
+        .name-zh { font-family: "Songti SC", "STSong", "SimSun", serif; color: #C41E3A; letter-spacing: 12px; font-weight: 300; }
+        .name-mn { color: #FFB800; letter-spacing: 1px; opacity: 0.7; }
+
+        /* --- 右上角 About (使用绝对定位脱离文档流，不挤压中心名字) --- */
+        .about-link {
+            position: absolute;
+            right: 60px;
+            text-decoration: none;
+            color: #000;
+            font-size: 0.8rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: "Garamond", "Eb Garamond", serif;
+            transition: color 0.3s;
+        }
+        
+        .about-link:hover { color: #888; }
+
+        /* --- 5. 项目列表 --- */
+        .project-list {
+            display: flex;
+            flex-direction: column;
+            gap: 55px; 
+            text-align: center;
+            transition: all 0.5s ease;
+            width: 100%;
+        }
+
+        .project-item {
+            text-decoration: none;
+            color: #000;
+            font-size: 2.2rem; 
+            font-weight: 700;
+            letter-spacing: 12px;
+            text-transform: uppercase;
+            font-family: "Garamond", "Eb Garamond", serif;
+            transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+            cursor: pointer;
+        }
+
+        /* --- 6. 交互逻辑 --- */
+        body:has(#sig:hover) .preview-overlay {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .project-list:has(.project-item:hover) .project-item:not(:hover) {
+            opacity: 0.1;
+        }
+
+        .project-item:hover {
+            letter-spacing: 35px;
+            color: #0066CC;
+        }
+
+        body:has(.project-list:hover) .top-bar,
+        body:has(.project-list:hover) .project-list {
+            mix-blend-mode: difference;
+        }
+        
+        body:has(#sig:hover) .name-en,
+        body:has(#sig:hover) .name-zh,
+        body:has(#sig:hover) .name-mn,
+        body:has(#sig:hover) .about-link,
+        body:has(#sig:hover) #sig {
+            color: #ffffff; 
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 900px) {
+            .brand a { flex-direction: column; align-items: center; gap: 15px; }
+            .top-bar { padding: 30px 20px; flex-direction: column; }
+            .about-link { 
+                position: relative; 
+                right: auto; 
+                margin-top: 20px; 
+            }
+            .project-item { font-size: 1.3rem; letter-spacing: 5px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="preview-overlay">
+        <img src="images/so_it_goes.jpg" ...>
+    </div>
+
+    <div class="landing-container">
+        
+        <header class="top-bar">
+            <div class="brand">
+                <a href="index.html">
+                    <span class="name-unit name-en">Kaining Zhang</span>
+                    <span class="name-unit name-zh">张凯宁</span>
+                    <span class="name-unit name-mn">ᠵᠠᠩ ᡴᠠᡳ ᠨᡳᠩ</span>
+                </a>
+            </div>
+            
+            <a href="about.html" class="about-link">About</a>
+        </header>
+
+        <nav class="project-list">
+            <a href="so-it-goes.html" class="project-item" id="sig">So It Goes</a>
+            <a href="project-two.html" class="project-item">Project Two</a>
+            <a href="project-three.html" class="project-item">Project Three</a>
+        </nav>
+
+    </div>
+
+</body>
+</html>
