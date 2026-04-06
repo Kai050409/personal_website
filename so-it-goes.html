@@ -39,47 +39,35 @@
         .name-zh { font-family: "Songti SC", "STSong", serif; color: #C41E3A; letter-spacing: 12px; font-weight: 300; }
         .name-mn { color: #FFB800; letter-spacing: 1px; opacity: 0.8; }
 
-        /* --- 3. 照片流容器 (z-index 底层) --- */
+        /* --- 3. 横向画廊主容器 --- */
         .gallery-container {
-            display: flex;               /* 开启横向排列，这是核心 */
-            overflow-x: auto;            /* 允许水平滚动 */
-            overflow-y: hidden;          /* 屏蔽垂直滚动 */
-            scroll-snap-type: x mandatory; /* 核心：横向自动吸附，保证照片居中 */
-            height: 85vh;                /* 给照片和文字留出充足高度 */
-            margin-top: 100px;           /* 避开顶部的签名栏 */
-            padding: 0 5vw;              /* 左右起始留白，让第一张也能居中 */
-            gap: 2vw;                    /* 照片之间的物理间距 */
-            -webkit-overflow-scrolling: touch; /* 让手机端滑动丝滑 */
+            display: flex;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory; /* 强制吸附 */
+            height: 85vh; 
+            margin-top: 120px;
+            -webkit-overflow-scrolling: touch;
         }
+        
 
-        //* --- 4. 单个照片项目 (横向卡片) --- */
+        /* --- 4. 单个照片项目 (每一项占满一屏) --- */
         .photo-item {
-            flex: 0 0 auto;              /* 防止照片被挤压变形 */
-            width: 90vw;                 /* 每一组占据 90% 的屏幕宽度 */
+            flex: 0 0 100vw;             /* 核心：每一项都占满 100% 屏幕宽度 */
             height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            scroll-snap-align: center;    /* 滚动停止时自动对齐到屏幕正中心 */
-        }
-
-        /* 当图片进入视口时显示的样式 */
-        .photo-item.visible {
-            opacity: 1;
-            transform: translateY(0);
+            scroll-snap-align: center;   /* 自动对齐中心 */
         }
 
         .photo-item img {
-            /* 核心改动：限制最大高度为视口的 80% */
-            /* 这保证了图片在任何屏幕上都能完整展示 */
-            max-width: 100%; 
-            max-height: 80vh; 
+            max-height: 70vh;            /* 限制高度，留出空间给下面的字 */
+            max-width: 90vw;             /* 限制宽度 */
             width: auto;
             height: auto;
-            object-fit: contain; /* 保持比例 */
-            
-            /* 移除阴影，保持极简纯平面感 */
+            object-fit: contain;         /* 保持底片原始比例 */
         }
 
         /* 图片注释/说明 */
