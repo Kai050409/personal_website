@@ -17,24 +17,25 @@
             overflow: hidden; /* 彻底锁定，全靠点击触发 */
         }
 
-        /* 顶部导航 */
+        /* 顶部导航 - 找回你的三语签名 */
         .top-bar {
             position: fixed; top: 0; left: 0; width: 100%; height: 80px;
-            background-color: rgba(255, 255, 255, 0.8);
+            background-color: rgba(255, 255, 255, 0.85);
             z-index: 1000;
             display: flex; justify-content: center; align-items: center;
-            pointer-events: none; /* 让导航栏不阻挡下方的点击事件 */
+            pointer-events: none;
         }
-        .brand a { text-decoration: none; display: flex; align-items: baseline; gap: 20px; pointer-events: auto; }
+        .brand a { text-decoration: none; display: flex; align-items: baseline; gap: 25px; pointer-events: auto; }
         .name-en { font-family: "Didot", serif; color: #0066CC; font-style: italic; font-size: 0.8rem; letter-spacing: 1px; }
-        .name-zh { font-family: "Songti SC", serif; color: #C41E3A; font-size: 0.9rem; letter-spacing: 6px; }
+        .name-zh { font-family: "Songti SC", "STSong", serif; color: #C41E3A; font-size: 0.9rem; letter-spacing: 6px; }
+        .name-mn { color: #FFB800; font-size: 0.75rem; opacity: 0.8; } /* 满文签名 */
 
         /* 画廊容器 */
         .gallery-container {
             display: flex;
             width: 100vw;
             height: 100vh;
-            overflow-x: hidden; /* 禁用手动滚动条 */
+            overflow-x: hidden;
             scroll-behavior: smooth;
         }
 
@@ -58,29 +59,43 @@
         }
 
         /* 图片与说明 */
+        .photo-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         .photo-wrapper img {
-            max-height: 75vh;
-            max-width: 85vw;
+            max-height: 72vh;
+            max-width: 88vw;
             width: auto;
             height: auto;
             object-fit: contain;
-            user-select: none; /* 防止长按图片弹出菜单 */
+            user-select: none;
+            -webkit-user-drag: none;
         }
 
         .caption {
-            margin-top: 25px;
+            margin-top: 30px;
             font-size: 0.7rem;
             color: #bbb;
             letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
-        /* 点击区域提示（可选：如果你想看点击范围，可以取消注释 background） */
+        /* 点击交互层 */
         #click-overlay {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
             z-index: 500;
             cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .brand a { gap: 12px; }
+            .name-zh { letter-spacing: 3px; }
+            .name-mn { font-size: 0.65rem; }
         }
     </style>
 </head>
@@ -91,6 +106,7 @@
             <a href="index.html">
                 <span class="name-en">Kaining Zhang</span>
                 <span class="name-zh">张凯宁</span>
+                <span class="name-mn">ᠵᠠᠩ ᡴᠠᡳ ᠨᡳᠩ</span>
             </a>
         </div>
     </header>
@@ -101,35 +117,35 @@
         
         <section class="page-section">
             <div class="statement-box">
-                <p><strong>So It Goes...</strong><br><br>Is a long-term exploration of my hometown, Haicheng, and the shifting memories of my family history. Through the lens of medium and large format film.</p>
+                <p><strong>So It Goes...</strong><br><br>Is a long-term exploration of my hometown, Haicheng, and the shifting memories of my family history. Through the lens of medium and large format film, I seek to capture the silence and the traces left by time in the landscape of Northeast China.</p>
             </div>
         </section>
 
         <section class="page-section">
             <div class="photo-wrapper">
-                <img src="so_it_goes.jpg">
-                <div class="caption">No.01 / MEL-HCN / 2026</div>
+                <img src="photo_01.jpg" alt="Image 01">
+                <div class="caption">So It Goes..., No.01 / MEL-HCN / 2026</div>
             </div>
         </section>
 
         <section class="page-section">
             <div class="photo-wrapper">
-                <img src="so_it_goes_02.jpg">
-                <div class="caption">No.02 / HCN / 2026</div>
+                <img src="photo_02.jpg" alt="Image 02">
+                <div class="caption">So It Goes..., No.02 / HCN / 2026</div>
             </div>
         </section>
 
         <section class="page-section">
             <div class="photo-wrapper">
-                <img src="so_it_goes_03.jpg">
-                <div class="caption">No.03 / HCN / 2026</div>
+                <img src="photo_03.jpg" alt="Image 03">
+                <div class="caption">So It Goes..., No.03 / HCN / 2026</div>
             </div>
         </section>
 
         <section class="page-section">
             <div class="photo-wrapper">
-                <img src="so_it_goes_04.jpg">
-                <div class="caption">No.04 / HCN / 2026</div>
+                <img src="photo_04.jpg" alt="Image 04">
+                <div class="caption">So It Goes..., No.04 / HCN / 2026</div>
             </div>
         </section>
 
@@ -146,25 +162,25 @@
             const clickX = e.clientX;
 
             if (clickX > screenWidth / 2) {
-                // 点击右侧：下一张
+                // 点击右侧：下一页
                 if (currentIndex < sections.length - 1) {
                     currentIndex++;
                 }
             } else {
-                // 点击左侧：上一张
+                // 点击左侧：上一页
                 if (currentIndex > 0) {
                     currentIndex--;
                 }
             }
 
-            // 执行滚动
+            // 执行平滑滚动
             gallery.scrollTo({
                 left: currentIndex * window.innerWidth,
                 behavior: 'smooth'
             });
         });
 
-        // 适配窗口大小改变
+        // 适配窗口缩放
         window.addEventListener('resize', () => {
             gallery.scrollLeft = currentIndex * window.innerWidth;
         });
