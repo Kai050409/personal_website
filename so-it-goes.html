@@ -41,30 +41,27 @@
 
         /* --- 3. 照片流容器 (z-index 底层) --- */
         .gallery-container {
-            width: 100%;
-            /* 顶部留出足够空间避开导航 (100px导航 + 50px呼吸空间) */
-            margin-top: 150px; 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            /* 移除 gap，改用 photo-item 的 margin 控制 */
+            display: flex;               /* 开启横向排列，这是核心 */
+            overflow-x: auto;            /* 允许水平滚动 */
+            overflow-y: hidden;          /* 屏蔽垂直滚动 */
+            scroll-snap-type: x mandatory; /* 核心：横向自动吸附，保证照片居中 */
+            height: 85vh;                /* 给照片和文字留出充足高度 */
+            margin-top: 100px;           /* 避开顶部的签名栏 */
+            padding: 0 5vw;              /* 左右起始留白，让第一张也能居中 */
+            gap: 2vw;                    /* 照片之间的物理间距 */
+            -webkit-overflow-scrolling: touch; /* 让手机端滑动丝滑 */
         }
 
-        /* --- 4. 单张图片包装 (z-index 底层) --- */
+        //* --- 4. 单个照片项目 (横向卡片) --- */
         .photo-item {
-            width: 100%;
-            height: 100vh; /* 每一项占满一屏 */
+            flex: 0 0 auto;              /* 防止照片被挤压变形 */
+            width: 90vw;                 /* 每一组占据 90% 的屏幕宽度 */
+            height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* 垂直居中 */
-            align-items: center; /* 水平居中 */
-            padding: 0 60px; /* 侧边留白，防止图片贴边 */
-            margin-bottom: 10vh; /* 极其宽裕的底部留白，确保“翻页”仪式感 */
-            
-            /* 初始隐藏，配合后续滚动动画 */
-            opacity: 0;
-            transform: translateY(15px);
-            transition: all 1s cubic-bezier(0.2, 1, 0.3, 1);
+            justify-content: center;
+            align-items: center;
+            scroll-snap-align: center;    /* 滚动停止时自动对齐到屏幕正中心 */
         }
 
         /* 当图片进入视口时显示的样式 */
