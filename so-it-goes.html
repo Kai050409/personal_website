@@ -19,7 +19,7 @@
             overflow: hidden;
         }
 
-        /* --- 2. 顶部导航 (严格同步 index 颜色和间距) --- */
+        /* --- 2. 顶部导航 (严格同步 index) --- */
         .top-bar { 
             position: fixed;
             top: 0; left: 0; width: 100%;
@@ -28,7 +28,7 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            background-color: transparent; /* 彻底除雾 */
+            background-color: transparent;
             pointer-events: none;
         }
 
@@ -48,18 +48,27 @@
             scroll-behavior: smooth;
         }
 
+        /* 通用页容器 */
         .page-section {
             flex: 0 0 100vw;
             height: 100vh;
             display: flex;
             flex-direction: column;
-            /* ⬇️ 关键改动：不再中心对齐，改用顶部对齐并预留 160px ⬇️ */
-            justify-content: flex-start; 
             align-items: center;
-            padding-top: 160px; 
         }
 
-        /* 文字介绍页 (第一页) */
+        /* ⬇️ 关键：第一页（文字页）专门设为居中对齐 ⬇️ */
+        .statement-page {
+            justify-content: center; 
+        }
+
+        /* ⬇️ 关键：照片页设为靠上对齐，避开名字 ⬇️ */
+        .photo-page {
+            justify-content: flex-start;
+            padding-top: 160px;
+        }
+
+        /* 文字介绍盒 */
         .statement-box {
             max-width: 600px;
             line-height: 2.2;
@@ -67,11 +76,10 @@
             color: #333;
             text-align: left;
             font-family: "Garamond", serif;
-            /* ⬇️ 让第一页的文字稍微往下沉一点点，视觉更平衡 ⬇️ */
-            margin-top: 40px; 
+            margin-bottom: 50px; /* 补偿视觉重心 */
         }
 
-        /* 照片包装 */
+        /* 照片显示 */
         .photo-wrapper {
             display: flex;
             flex-direction: column;
@@ -80,8 +88,7 @@
         }
 
         .photo-wrapper img {
-            /* ⬇️ 调高最大高度到 72vh，让照片更抢眼 ⬇️ */
-            max-height: 72vh; 
+            max-height: 72vh;
             max-width: 85vw;
             width: auto;
             height: auto;
@@ -90,16 +97,15 @@
             -webkit-user-drag: none;
         }
 
-        /* 图片说明 (Caption) */
         .caption {
-            margin-top: 25px; /* 缩短与图片的间距，防止掉出屏幕 */
+            margin-top: 25px;
             font-size: 0.7rem;
             color: #aaa;
             letter-spacing: 1.5px;
             text-transform: uppercase;
         }
 
-        /* --- 4. 点击交互层 --- */
+        /* --- 4. 点击交互 --- */
         #gallery-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -116,8 +122,8 @@
             .brand a { flex-direction: column; align-items: center; gap: 10px; }
             .top-bar { padding: 30px 20px; background-color: transparent !important; }
             .name-zh { letter-spacing: 6px; }
-            .page-section { padding-top: 140px; }
-            .photo-wrapper img { max-height: 60vh; } /* 手机端屏幕短，进一步压缩图片高度 */
+            .photo-page { padding-top: 140px; }
+            .photo-wrapper img { max-height: 60vh; }
         }
     </style>
 </head>
@@ -140,7 +146,7 @@
 
     <main class="gallery-container" id="gallery">
         
-        <section class="page-section">
+        <section class="page-section statement-page">
             <div class="statement-box">
                 <p style="font-style: italic; color: #555;">
                     "In the world it is winter, but it is warm here. There are lotuses 
@@ -158,31 +164,31 @@
             </div>
         </section>
 
-        <section class="page-section">
+        <section class="page-section photo-page">
             <div class="photo-wrapper">
                 <img src="images/photo_01.jpg" alt="No.01">
-                <div class="caption">So It Goes..., No.01 / MEL-HCN / 2026</div>
+                <div class="caption">Soft Opening, Haicheng, Liaoning, China. Dec, 2025</div>
             </div>
         </section>
 
-        <section class="page-section">
+        <section class="page-section photo-page">
             <div class="photo-wrapper">
                 <img src="images/photo_02.jpg" alt="No.02">
-                <div class="caption">So It Goes..., No.02 / HCN / 2026</div>
+                <div class="caption">Untitled, Haicheng, Liaoning, China. Dec, 2025</div>
             </div>
         </section>
 
-        <section class="page-section">
+        <section class="page-section photo-page">
             <div class="photo-wrapper">
                 <img src="images/photo_03.jpg" alt="No.03">
-                <div class="caption">So It Goes..., No.03 / HCN / 2026</div>
+                <div class="caption">Untitled, Haicheng, Liaoning, China. Jan, 2026</div>
             </div>
         </section>
 
-        <section class="page-section">
+        <section class="page-section photo-page">
             <div class="photo-wrapper">
                 <img src="images/photo_04.jpg" alt="No.04">
-                <div class="caption">So It Goes..., No.04 / HCN / 2026</div>
+                <div class="caption">Untitled, Haicheng, Liaoning, China. Jan, 2026</div>
             </div>
         </section>
 
