@@ -7,6 +7,7 @@
     <link rel="icon" type="image/png" href="erbao.png">
     
     <style>
+        /* 1. 全局重置 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body, html {
@@ -15,34 +16,30 @@
             color: #111;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             -webkit-font-smoothing: antialiased;
-            overflow: hidden; /* 彻底锁定，全靠点击触发 */
+            overflow: hidden;
         }
 
-        /* 顶部导航 - 同步 index 页签名比例与颜色 */
+        /* --- 2. 顶部导航 (严格同步 index 颜色和间距) --- */
         .top-bar { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 120px;
+            position: fixed;
+            top: 0; left: 0; width: 100%;
             padding: 50px 60px;
-    /* ⬇️ 将背景改为透明，或者删掉这行 ⬇️ */
-            background-color: transparent; 
-            z-index: 1000;
-            display: flex; 
-            justify-content: center; 
+            display: flex;
+            justify-content: center;
             align-items: center;
+            z-index: 1000;
+            background-color: transparent; /* 彻底除雾 */
             pointer-events: none;
         }
 
         .brand { text-align: center; pointer-events: auto; }
-        .brand a { text-decoration: none; display: flex; align-items: baseline; gap: 40px; }
+        .brand a { text-decoration: none; display: flex; flex-direction: row; align-items: baseline; gap: 40px; }
         .name-unit { font-size: 0.85rem; font-weight: 400; text-transform: uppercase; }
         .name-en { font-family: "Garamond", "Eb Garamond", serif; color: #0066CC; letter-spacing: 2px; font-style: italic; }
         .name-zh { font-family: "Songti SC", "STSong", "SimSun", serif; color: #C41E3A; letter-spacing: 12px; font-weight: 300; }
-        .name-mn { color: #cc9933; letter-spacing: 1px; opacity: 0.8; font-size: 0.8rem; }
+        .name-mn { color: #FFB800; letter-spacing: 1px; opacity: 0.7; }
 
-        /* 画廊主容器 */
+        /* --- 3. 画廊容器 --- */
         .gallery-container {
             display: flex;
             width: 100vw;
@@ -56,33 +53,36 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            /* ⬇️ 关键改动：不再中心对齐，改用顶部对齐并预留 160px ⬇️ */
+            justify-content: flex-start; 
             align-items: center;
-    /* ⬇️ 增加顶部内边距，为所有内容（包括文字和照片）预留出 120px 的安全区 ⬇️ */
-            padding: 120px 10vw 0; 
+            padding-top: 160px; 
         }
 
-        /* 文字介绍 */
+        /* 文字介绍页 (第一页) */
         .statement-box {
             max-width: 600px;
             line-height: 2.2;
             font-size: 0.9rem;
             color: #333;
-            text-align: justify;
+            text-align: left;
             font-family: "Garamond", serif;
-            letter-spacing: 0.02em;
+            /* ⬇️ 让第一页的文字稍微往下沉一点点，视觉更平衡 ⬇️ */
+            margin-top: 40px; 
         }
 
-        /* 图片与说明 */
-        /* --- 5. 图片展示样式 (修正版) --- */
+        /* 照片包装 */
+        .photo-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
         .photo-wrapper img {
-    /* ⬇️ 关键修改：减小最大高度，确保不和顶部签名撞车 ⬇️ */
-            max-height: 65vh; 
+            /* ⬇️ 调高最大高度到 72vh，让照片更抢眼 ⬇️ */
+            max-height: 72vh; 
             max-width: 85vw;
-    
-    /* ⬇️ 增加一个顶部外边距，强制推离签名栏 ⬇️ */
-            margin-top: 80px; 
-    
             width: auto;
             height: auto;
             object-fit: contain;
@@ -90,15 +90,16 @@
             -webkit-user-drag: none;
         }
 
+        /* 图片说明 (Caption) */
         .caption {
-            margin-top: 35px;
+            margin-top: 25px; /* 缩短与图片的间距，防止掉出屏幕 */
             font-size: 0.7rem;
             color: #aaa;
             letter-spacing: 1.5px;
             text-transform: uppercase;
         }
 
-        /* --- 4. 点击翻页线索 (光标提示) --- */
+        /* --- 4. 点击交互层 --- */
         #gallery-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -106,36 +107,17 @@
             z-index: 500;
             display: flex;
         }
+        .click-zone { flex: 1; }
+        .click-zone.prev { cursor: w-resize; }
+        .click-zone.next { cursor: e-resize; }
 
-        /* 左侧点击区域：上一张 */
-        .click-zone.prev {
-            flex: 1;
-            /* ⬇️ 这里定制光标样式：当鼠标悬停在左侧时显示箭头或提示 ⬇️ */
-            cursor: w-resize; /* w-resize 是一个向左的箭头，你也可以用 cursor: url('left-arrow.png'), auto; 自定义图 */
-        }
-
-        /* 右侧点击区域：下一张 */
-        .click-zone.next {
-            flex: 1;
-            /* ⬇️ 这里定制光标样式：当鼠标悬停在右侧时显示箭头或提示 ⬇️ */
-            cursor: e-resize; /* e-resize 是一个向右的箭头 */
-        }
-
-        /* --- 适配窗口缩放 - 同步 index 的手机端逻辑 --- */
+        /* 手机端适配 */
         @media (max-width: 900px) {
-    /* 这里控制手机端的签名栏 */
-            .top-bar { 
-                height: 100px; 
-                padding: 20px; 
-        /* ⬇️ 加入这行，彻底去掉手机端的白色背景雾 ⬇️ */
-                background-color: transparent !important; 
-            }
-
-            .brand a { flex-direction: column; align-items: center; gap: 8px; }
-            .name-zh { letter-spacing: 4px; font-size: 0.85rem; }
-            .name-en { font-size: 0.7rem; }
-            .name-mn { font-size: 0.6rem; }
-            .statement-box { font-size: 0.8rem; padding: 0 20px; }
+            .brand a { flex-direction: column; align-items: center; gap: 10px; }
+            .top-bar { padding: 30px 20px; background-color: transparent !important; }
+            .name-zh { letter-spacing: 6px; }
+            .page-section { padding-top: 140px; }
+            .photo-wrapper img { max-height: 60vh; } /* 手机端屏幕短，进一步压缩图片高度 */
         }
     </style>
 </head>
@@ -157,9 +139,10 @@
     </div>
 
     <main class="gallery-container" id="gallery">
+        
         <section class="page-section">
-            <div class="statement-box" style="text-align: left; max-width: 600px;">
-                <p style="font-style: italic; color: #555; line-height: 2.2; font-size: 0.9rem;">
+            <div class="statement-box">
+                <p style="font-style: italic; color: #555;">
                     "In the world it is winter, but it is warm here. There are lotuses 
                     in bloom on the green waters of the winter lake, their scent 
                     reaches her on the wind, there are people trying to pick them, 
@@ -178,28 +161,28 @@
         <section class="page-section">
             <div class="photo-wrapper">
                 <img src="images/photo_01.jpg" alt="No.01">
-                <div class="caption">Soft Opening, Haicheng, Liaoning, China. Dec, 2025.</div>
+                <div class="caption">So It Goes..., No.01 / MEL-HCN / 2026</div>
             </div>
         </section>
 
         <section class="page-section">
             <div class="photo-wrapper">
                 <img src="images/photo_02.jpg" alt="No.02">
-                <div class="caption">Untitled, Haicheng, Liaoning, China. Jan, 2026.</div>
+                <div class="caption">So It Goes..., No.02 / HCN / 2026</div>
             </div>
         </section>
 
         <section class="page-section">
             <div class="photo-wrapper">
                 <img src="images/photo_03.jpg" alt="No.03">
-                <div class="caption">Untitled, Haicheng, Liaoning, China. Jan, 2026.</div>
+                <div class="caption">So It Goes..., No.03 / HCN / 2026</div>
             </div>
         </section>
 
         <section class="page-section">
             <div class="photo-wrapper">
                 <img src="images/photo_04.jpg" alt="No.04">
-                <div class="caption">Untitled, Haicheng, Liaoning, China. Jan, 2026.</div>
+                <div class="caption">So It Goes..., No.04 / HCN / 2026</div>
             </div>
         </section>
 
@@ -212,19 +195,13 @@
         const sections = document.querySelectorAll('.page-section');
         let currentIndex = 0;
 
-        // 监听左侧点击：后退
         prevBtn.addEventListener('click', () => {
-            if (currentIndex > 0) {
-                currentIndex--;
-            }
+            if (currentIndex > 0) currentIndex--;
             scrollToCurrent();
         });
 
-        // 监听右侧点击：前进
         nextBtn.addEventListener('click', () => {
-            if (currentIndex < sections.length - 1) {
-                currentIndex++;
-            }
+            if (currentIndex < sections.length - 1) currentIndex++;
             scrollToCurrent();
         });
 
@@ -235,7 +212,6 @@
             });
         }
 
-        // 窗口大小变动重置位置
         window.addEventListener('resize', () => {
             gallery.scrollLeft = currentIndex * window.innerWidth;
         });
