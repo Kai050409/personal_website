@@ -58,7 +58,8 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 0 10vw;
+    /* ⬇️ 增加顶部内边距，为所有内容（包括文字和照片）预留出 120px 的安全区 ⬇️ */
+            padding: 120px 10vw 0; 
         }
 
         /* 文字介绍 */
@@ -73,9 +74,15 @@
         }
 
         /* 图片与说明 */
+        /* --- 5. 图片展示样式 (修正版) --- */
         .photo-wrapper img {
-            max-height: 70vh;
+    /* ⬇️ 关键修改：减小最大高度，确保不和顶部签名撞车 ⬇️ */
+            max-height: 65vh; 
             max-width: 85vw;
+    
+    /* ⬇️ 增加一个顶部外边距，强制推离签名栏 ⬇️ */
+            margin-top: 80px; 
+    
             width: auto;
             height: auto;
             object-fit: contain;
