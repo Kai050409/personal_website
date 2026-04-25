@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Kaining Zhang - Cyber Warhol Lab</title>
     <style>
-        /* 1. 视觉重置与主页对齐 */
+        /* 1. 基础重置与视觉统一 */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { 
             background-color: #ffffff; 
@@ -15,7 +15,7 @@
             overscroll-behavior-y: contain;
         }
 
-        /* 2. 品牌导航栏 - 严谨复刻主页设计 */
+        /* 2. 品牌导航栏 - 严谨对齐主页三语设计 */
         .top-bar { 
             width: 100%; 
             padding: 30px 40px; 
@@ -41,16 +41,16 @@
         .name-zh { font-family: "Songti SC", serif; color: #C41E3A; letter-spacing: 12px; }
         .name-mn { color: #FFB800; letter-spacing: 1px; opacity: 0.8; } /* 满文标识 */
 
-        /* 3. 核心交互区域 */
-        #upload-section { height: 100vh; display: flex; align-items: center; justify-content: center; }
+        /* 3. 核心功能区 */
+        #upload-section { height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
         .upload-trigger { 
-            padding: 60px 40px; border: 1px dashed #ccc; cursor: pointer;
+            padding: 60px 40px; border: 1px dashed #ccc; cursor: pointer; text-align: center;
             font-family: "Garamond", serif; letter-spacing: 3px; font-size: 0.9rem; color: #666;
-            transition: 0.3s;
+            transition: 0.3s; width: 100%; max-width: 400px;
         }
         .upload-trigger:hover { border-color: #000; color: #000; }
 
-        #editor-section { display: none; min-height: 100vh; flex-direction: column; align-items: center; padding: 120px 20px 200px 20px; }
+        #editor-section { display: none; min-height: 100vh; flex-direction: column; align-items: center; padding: 120px 20px 220px 20px; }
         
         #warhol-grid { display: grid; gap: 15px; width: 100%; max-width: 1200px; }
         canvas { width: 100% !important; height: auto !important; box-shadow: 0 10px 40px rgba(0,0,0,0.05); }
@@ -83,7 +83,7 @@
             font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; border-radius: 20px; cursor: pointer;
         }
 
-        /* 5. 极窄屏幕适配 */
+        /* 5. 极窄屏幕适配策略 */
         @media (max-width: 700px) {
             .brand a { gap: 15px; }
             .name-unit { font-size: 0.65rem; }
@@ -96,7 +96,8 @@
             .brand a { gap: 8px; }
             .name-unit { font-size: 0.55rem; }
             .name-zh { letter-spacing: 2px; }
-            .name-mn { display: none; } /* 极窄时隐藏满文防止重叠 */
+            .name-mn { display: none; } /* 移动端极窄屏隐藏满文以保持清晰度 */
+            .floating-controls { width: 95%; bottom: 15px; padding: 15px; }
         }
     </style>
 </head>
