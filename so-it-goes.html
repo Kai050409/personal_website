@@ -19,7 +19,7 @@
             overflow: hidden;
         }
 
-        /* --- 2. 顶部导航 (严格同步 index) --- */
+        /* --- 2. 顶部导航 --- */
         .top-bar { 
             position: fixed;
             top: 0; left: 0; width: 100%;
@@ -48,7 +48,6 @@
             scroll-behavior: smooth;
         }
 
-        /* 通用页容器 */
         .page-section {
             flex: 0 0 100vw;
             height: 100vh;
@@ -57,29 +56,31 @@
             align-items: center;
         }
 
-        /* ⬇️ 关键：第一页（文字页）专门设为居中对齐 ⬇️ */
+        /* 文字页：修正垂直居中与溢出 */
         .statement-page {
             justify-content: center; 
+            padding: 0 20px;
+            overflow-y: auto; /* 内容过多时允许纵向滚动 */
+            -webkit-overflow-scrolling: touch;
         }
 
-        /* ⬇️ 关键：照片页设为靠上对齐，避开名字 ⬇️ */
+        /* 照片页：避开顶部名字 */
         .photo-page {
             justify-content: flex-start;
             padding-top: 160px;
         }
 
-        /* 文字介绍盒 */
+        /* 文字介绍盒：修正移动端宽度 */
         .statement-box {
             max-width: 600px;
+            width: 90%; /* 确保在窄屏下不贴边 */
             line-height: 2.2;
             font-size: 0.9rem;
             color: #333;
             text-align: left;
             font-family: "Garamond", serif;
-            margin-bottom: 50px; /* 补偿视觉重心 */
         }
 
-        /* 照片显示 */
         .photo-wrapper {
             display: flex;
             flex-direction: column;
@@ -120,8 +121,13 @@
         /* 手机端适配 */
         @media (max-width: 900px) {
             .brand a { flex-direction: column; align-items: center; gap: 10px; }
-            .top-bar { padding: 30px 20px; background-color: transparent !important; }
+            .top-bar { padding: 30px 20px; }
             .name-zh { letter-spacing: 6px; }
+            
+            /* 移动端文字页增加顶部 padding 防止重叠 */
+            .statement-page { padding-top: 120px; justify-content: flex-start; }
+            .statement-box { line-height: 1.8; font-size: 0.85rem; }
+            
             .photo-page { padding-top: 140px; }
             .photo-wrapper img { max-height: 60vh; }
         }
@@ -194,28 +200,28 @@
 
         <section class="page-section photo-page">
             <div class="photo-wrapper">
-                <img src="images/photo_05.jpg" alt="No.04">
+                <img src="images/photo_05.jpg" alt="No.05">
                 <div class="caption">Sealed, Haicheng, Liaoning, China. Jan, 2026</div>
             </div>
         </section>
 
         <section class="page-section photo-page">
             <div class="photo-wrapper">
-                <img src="images/photo_06.jpg" alt="No.04">
+                <img src="images/photo_06.jpg" alt="No.06">
                 <div class="caption">Untitled, Haicheng, Liaoning, China. Jan, 2026</div>
             </div>
         </section>
 
         <section class="page-section photo-page">
             <div class="photo-wrapper">
-                <img src="images/photo_07.jpg" alt="No.04">
+                <img src="images/photo_07.jpg" alt="No.07">
                 <div class="caption">Storage, Haicheng, Liaoning, China. Jan, 2026</div>
             </div>
         </section>
 
         <section class="page-section photo-page">
             <div class="photo-wrapper">
-                <img src="images/photo_08.jpg" alt="No.04">
+                <img src="images/photo_08.jpg" alt="No.08">
                 <div class="caption">Untitled, Haicheng, Liaoning, China. Jan, 2026</div>
             </div>
         </section>
