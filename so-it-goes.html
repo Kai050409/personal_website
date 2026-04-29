@@ -56,29 +56,27 @@
             align-items: center;
         }
 
-        /* 文字页：修正垂直居中与溢出 */
+        /* 文字页：保持绝对居中 */
         .statement-page {
             justify-content: center; 
-            padding: 0 20px;
-            overflow-y: auto; /* 内容过多时允许纵向滚动 */
-            -webkit-overflow-scrolling: touch;
+            padding: 0 40px;
         }
 
-        /* 照片页：避开顶部名字 */
-        .photo-page {
-            justify-content: flex-start;
-            padding-top: 160px;
-        }
-
-        /* 文字介绍盒：修正移动端宽度 */
         .statement-box {
             max-width: 600px;
-            width: 90%; /* 确保在窄屏下不贴边 */
+            width: 100%;
             line-height: 2.2;
             font-size: 0.9rem;
             color: #333;
             text-align: left;
             font-family: "Garamond", serif;
+            margin-bottom: 20px; /* 视觉重心微调 */
+        }
+
+        /* 照片页：靠上对齐以避开页眉 */
+        .photo-page {
+            justify-content: flex-start;
+            padding-top: 160px;
         }
 
         .photo-wrapper {
@@ -106,6 +104,18 @@
             text-transform: uppercase;
         }
 
+        /* 最后一页继续 */
+        .continue-page {
+            justify-content: center;
+        }
+        
+        .continue-text {
+            font-size: 0.75rem;
+            color: #999;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
         /* --- 4. 点击交互 --- */
         #gallery-overlay {
             position: fixed;
@@ -124,9 +134,19 @@
             .top-bar { padding: 30px 20px; }
             .name-zh { letter-spacing: 6px; }
             
-            /* 移动端文字页增加顶部 padding 防止重叠 */
-            .statement-page { padding-top: 120px; justify-content: flex-start; }
-            .statement-box { line-height: 1.8; font-size: 0.85rem; }
+            /* 关键修改：移动端依然保持 justify-content: center (居中) */
+            .statement-page { 
+                justify-content: center; 
+                padding: 0 30px; 
+            }
+            
+            /* 通过 margin-top 确保文字不会顶到名字，同时保持整体居中感 */
+            .statement-box { 
+                margin-top: 60px; 
+                line-height: 1.8; 
+                font-size: 0.85rem; 
+                width: 100%;
+            }
             
             .photo-page { padding-top: 140px; }
             .photo-wrapper img { max-height: 60vh; }
@@ -170,51 +190,60 @@
             </div>
         </section>
 
+        <!-- 照片页 -->
         <section class="page-section photo-page">
             <div class="photo-wrapper">
                 <img src="images/photo_01.jpg" alt="No.01">
+                <div class="caption">Soft Opening, Haicheng, Liaoning, China. Dec, 2025</div>
             </div>
         </section>
 
         <section class="page-section photo-page">
             <div class="photo-wrapper">
                 <img src="images/photo_02.jpg" alt="No.02">
+                <div class="caption">Untitled, Haicheng, Liaoning, China. Dec, 2025</div>
             </div>
         </section>
 
         <section class="page-section photo-page">
             <div class="photo-wrapper">
                 <img src="images/photo_03.jpg" alt="No.03">
+                <div class="caption">Untitled, Haicheng, Liaoning, China. Jan, 2026</div>
             </div>
         </section>
 
         <section class="page-section photo-page">
             <div class="photo-wrapper">
                 <img src="images/photo_04.jpg" alt="No.04">
+                <div class="caption">Untitled, Haicheng, Liaoning, China. Jan, 2026</div>
             </div>
         </section>
 
         <section class="page-section photo-page">
             <div class="photo-wrapper">
                 <img src="images/photo_05.jpg" alt="No.05">
+                <div class="caption">Sealed, Haicheng, Liaoning, China. Jan, 2026</div>
             </div>
         </section>
 
         <section class="page-section photo-page">
             <div class="photo-wrapper">
                 <img src="images/photo_06.jpg" alt="No.06">
+                <div class="caption">Untitled, Haicheng, Liaoning, China. Jan, 2026</div>
             </div>
         </section>
 
         <section class="page-section photo-page">
             <div class="photo-wrapper">
                 <img src="images/photo_07.jpg" alt="No.07">
+                <div class="caption">Storage, Haicheng, Liaoning, China. Jan, 2026</div>
             </div>
         </section>
 
         <section class="page-section photo-page">
             <div class="photo-wrapper">
                 <img src="images/photo_08.jpg" alt="No.08">
+                <div class="caption">Untitled, Haicheng, Liaoning, China. Jan, 2026</div>
             </div>
         </section>
 
@@ -223,8 +252,6 @@
         </section>
 
     </main>
-
-    
 
     <script>
         const gallery = document.getElementById('gallery');
